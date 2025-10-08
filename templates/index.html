@@ -1,10 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>Hello World</h1>
 <p>This is my testing webpage!!!</p>
 <p> My name is {{ first_name }}</p>
 <p> {{ safe_filter_example }}</p>
 <p> {{ safe_filter_example|safe }}</p>
 <p> {{ safe_filter_example|striptags }}</p>
-
 <h3>Favourite Pizza:</h3>
 {%for things in list_example%}
     {%if things == 67%}
@@ -13,3 +14,4 @@
         {{things}}<br/>
     {%endif%}
 {%endfor%}
+{% endblock %}
