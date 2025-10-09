@@ -1,7 +1,7 @@
 from flask import Flask,render_template,flash,request
 from flask_wtf import FlaskForm
-from wtforms import SubmitField,StringField
-from wtforms.validators import DataRequired #requires to put data,nullable=false
+from wtforms import SubmitField,StringField,PasswordField,BooleanField,ValidationError
+from wtforms.validators import DataRequired,EqualTo,Length #requires to put data,nullable=false
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
@@ -24,7 +24,7 @@ class Users(db.Model):
     email = db.Column(db.String(120),nullable=False,unique=True)
     favourite_color = db.Column(db.String(120))
     date_added = db.Column(db.DateTime,default=datetime.utcnow)
-    #Do soome password stuff!
+    #Do some password stuff!
     password_hash = db.Column(db.String(128))
 
     @property
@@ -47,6 +47,8 @@ class UserForm(FlaskForm):
     name = StringField("Name:",validators=[DataRequired()])
     email = StringField("Email:",validators=[DataRequired()])
     favourite_color = StringField("Favourite Color:")
+    password_hash = PasswordField('Password',validators=[DataRequired(),EqualTo('passwoord_hash2',message ='Password Must Match')]
+    password_hash2 =PasswordField()
     submit = SubmitField("Submit")
 
 #Create a From Class
@@ -142,3 +144,6 @@ def delete(id):
         flash("Whoops!There was a problem deleting user,try again...")
         return render_template("add_user.html",
         form=form,name=name,our_users=our_users)
+
+
+
